@@ -2,23 +2,26 @@
 
 void RobloxMesh::Write(std::ostream& stream)
 {
-	struct
+	stream << "version 1.00" << std::endl;
+	stream << faces.size() << std::endl;
+
+	for (int i = 0; i < vertices.size(); ++i)
 	{
-		uint16_t headerSize;
-		uint8_t vertexSize;
-		uint8_t faceSize;
-		uint32_t vertexCount;
-		uint32_t faceCount;
-	} header;
+		Vertex vert = vertices[i];
 
-	header.headerSize = sizeof(header);
-	header.vertexSize = sizeof(Vertex);
-	header.faceSize = sizeof(Face);
-	header.vertexCount = vertices.size();
-	header.faceCount = faces.size();
+		stream << "[";
+		stream << vert.vx * 2 << ",";
+		stream << vert.vy * 2 << ",";
+		stream << vert.vz * 2 << "]";
 
-	stream << "version 2.00" << std::endl;
-	stream.write((char*)&header, sizeof(header));
-	stream.write((char*)vertices.data(), vertices.size() * sizeof(Vertex));
-	stream.write((char*)faces.data(), faces.size() * sizeof(Face));
+		stream << "[";
+		stream << vert.nx << ",";
+		stream << vert.ny << ",";
+		stream << vert.nz << "]";
+
+		stream << "[";
+		stream << vert.tu << ",";
+		stream << vert.tv << ",";
+		stream << "0]";
+	}
 }

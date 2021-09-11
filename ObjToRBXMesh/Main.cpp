@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 			meshVertex.nz = objVertex.Normal.Z;
 
 			meshVertex.tu = objVertex.TextureCoordinate.X;
-			meshVertex.tv = 1.0f - objVertex.TextureCoordinate.Y;
+			meshVertex.tv = objVertex.TextureCoordinate.Y;
 
 			rbxMesh.vertices.push_back(meshVertex);
 		}
