@@ -23,6 +23,6 @@ public:
 
 	std::vector<Face> faces;
 
-	void Write(std::ostream& stream);
+	void Write(std::ostream& stream, std::string ver);
 };
 

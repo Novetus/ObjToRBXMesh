@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
 {
 	for (int i = 1; i < argc; ++i)
 	{
-		std::string arg = argv[i];
+		std::string arg = argv[1];
 
 		objl::Loader obj;
 		if (!obj.LoadFile(arg))
@@ -15,6 +15,8 @@ int main(int argc, char* argv[])
 			std::cout << "ERROR: Could not load \"" << arg << "\"!";
 			return EXIT_FAILURE;
 		}
+
+		std::string ver = argv[2];
 
 		RobloxMesh rbxMesh;
 
@@ -31,7 +33,8 @@ int main(int argc, char* argv[])
 			meshVertex.nz = objVertex.Normal.Z;
 
 			meshVertex.tu = objVertex.TextureCoordinate.X;
-			meshVertex.tv = objVertex.TextureCoordinate.Y;
+			float v = (ver == "2.00") ? (1.0 - objVertex.TextureCoordinate.Y) : objVertex.TextureCoordinate.Y;
+			meshVertex.tv = v;
 
 			rbxMesh.vertices.push_back(meshVertex);
 		}
@@ -48,7 +51,7 @@ int main(int argc, char* argv[])
 		}
 
 		std::ofstream output(arg + ".mesh", std::ios::binary);
-		rbxMesh.Write(output);
+		rbxMesh.Write(output, ver);
 		output.close();
 	}
 }
